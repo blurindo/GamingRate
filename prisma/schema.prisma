@@ -16,7 +16,7 @@ model User {
   username        String   @unique
   email        String   @unique
   password        String
-  profileImage String?
+  profileImage String
   createdAt DateTime @default(now())
   
   gameRates    GameRate[]
