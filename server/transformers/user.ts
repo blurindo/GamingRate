@@ -1,10 +1,10 @@
-export const userTransformer = (user) => {
+import {User} from "@prisma/client" 
+export const userTransformer = (user: User) => {
     return {
         id: user.id,
-        name: user.name,
+        name: user.username,
         email: user.email,
         username: user.username,
         profileImage: user.profileImage,
-        handle: '@' + user.username
     }
 }

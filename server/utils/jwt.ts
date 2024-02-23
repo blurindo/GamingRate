@@ -1,6 +1,10 @@
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 import User from "../models/UserForCreation"
 import { H3Event } from "h3"
+
+interface IJwtPayload extends JwtPayload {
+    userId: number
+}
 
 const generateAccessToken = (user: User) => {
     const config = useRuntimeConfig()
@@ -22,7 +26,7 @@ export const decodeRefreshToken = (token: string) => {
     const config = useRuntimeConfig();
 
     try {
-        return jwt.verify(token, config.jwtRefreshSecret)
+        return jwt.verify(token, config.jwtRefreshSecret) as IJwtPayload
     } catch (error) {
         return null;
     }

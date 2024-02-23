@@ -4,6 +4,8 @@ import { generateTokens, sendRefreshToken } from "~/server/utils/jwt";
 import { userTransformer } from "../../transformers/user";
 import { createRefreshToken } from "~/server/db/refreshToken";
 import { sendError } from "h3"
+import { User } from "@prisma/client" 
+import { PrismaClient } from "@prisma/client/extension";
 
 export default defineEventHandler(async(event) => {
     const body = await readBody(event);
@@ -16,11 +18,10 @@ export default defineEventHandler(async(event) => {
             statusMessage: 'Invalid params'
         }))
     }
-
     // Is the user registered
     const user = await getUserByUsername(username)
 
-    if(!user) {
+    if(user == null) {
         return sendError(event, createError({
             statusCode: 400,
             statusMessage: 'Username or password is invalid'

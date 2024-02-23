@@ -1,8 +1,8 @@
 import { prisma } from "."
 import bcrypt from "bcrypt"
-import UserForCreation from "../models/UserForCreation"
+import {User} from "@prisma/client" 
 
-export const createUser =  (userData: UserForCreation) => {
+export const createUser =  (userData: Omit<User, "id" | "createdAt">) => {
     const finalUserData = {
         ...userData,
         password: bcrypt.hashSync(userData.password, 10)
