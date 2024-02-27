@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
             'Client-ID': `${config.igdbClientId}`,
             'Authorization': `${config.igdbAuthorization}`,
           },
-          body: `fields name, cover.image_id, storyline, first_release_date; search "${searchQuery}";`
+          body: `fields name, cover.image_id, storyline, genres.name, first_release_date, platforms.name, involved_companies.company.name, involved_companies.publisher; where id = ${searchQuery};`
       });
     
     const foundGames = await response.json();

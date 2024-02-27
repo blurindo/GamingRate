@@ -23,8 +23,16 @@ export default () => {
         access_token: string;
     }
 
+    interface AuthUser {
+        email: string;
+        id: string;
+        name: string;
+        profileImage: string;
+        username: string;
+      }
+
     const useAuthToken = () => useState('auth_token')
-    const useAuthUser = () => useState('auth_user')
+    const useAuthUser = () => useState<AuthUser>('auth_user')
     const useAuthLoading = () => useState('auth_loading', () => true)
 
     const setToken = (newToken: string | null) => {

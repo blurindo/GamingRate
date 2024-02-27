@@ -1,5 +1,5 @@
 <template>
-    <svg viewBox="0 0 1024.000000 1024.000000" class="text-slate-800 dark:text-white" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 1024.000000 1024.000000" class="text-slate-800" fill="currentColor" preserveAspectRatio="xMidYMid meet">
 
 <g transform="translate(0.000000,1024.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
