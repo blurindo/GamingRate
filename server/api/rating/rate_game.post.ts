@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
             userId: userId
         }
 
-        const createRate = createRating(request)
+        const createRate = await createRating(request)
 
         return createRate;
     }

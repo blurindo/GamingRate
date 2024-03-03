@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         userId: userId,
         gameId: gameId
     }
-    const checkRate = getRatingByUserAndGame(userId, gameId)
+    const checkRate = await getRatingByUserAndGame(userId, gameId)
 
     return checkRate;
 })

@@ -1,30 +1,40 @@
 <template >
+  <v-app>
     <LoadingPage v-if="isAuthLoading"/>
 
-<div v-else-if="user" class="min-h-full bg-stone-700">
-  <div class="sticky top-0 z-10">
-    <Navbar />
-  </div>
-  <div class="flex lg:flex-row">
-    <div class="sm:w-1/5 lg:fixed lg:h-full border-r border-gray-400">
-      <div class="pl-2 pt-2 overflow-auto">
-        <SidebarLeft/>
-      </div>
+<div v-else-if="user" class="min-h-full">
+    <v-app-bar>
+    <div class="min-w-full">
+      <Navbar/>
     </div>
-    <div class="flex-1 lg:ml-[20%]">
-      <div class="grid grid-cols-12 sm:px-6 lg:max-w-7xl lg:px-8 lg:gap-5">
-        <div class="col-span-12 md:col-span-8 lg:col-span-12 min-h-full bg-stone-700">
-            <slot/>
-        </div>
-      </div>
-    </div>
-  </div>
+    
+    </v-app-bar>
+
+    <v-navigation-drawer
+    scroll-behavior="hide" :rail="mdAndDown" :expand-on-hover="mdAndDown" permanent color="#292524"> 
+      <v-list color="#292524" nav>
+        <NuxtLink to="/"><v-list-item prepend-icon="mdi-home-outline" base-color="grey-darken-1" link>Home</v-list-item></NuxtLink>
+        <NuxtLink :to="`/profile/${user.id}`"><v-list-item prepend-icon="mdi-account-outline" base-color="grey-darken-1" link >Profile</v-list-item></NuxtLink>
+        <v-list-item prepend-icon="mdi-account-multiple-outline" base-color="grey-darken-1" link >Friends Activity</v-list-item>
+        <v-list-item prepend-icon="mdi-email-outline" base-color="grey-darken-1" link >Requests</v-list-item>
+        <v-list-item @click="handleLogout" style="bottom: 0;position: fixed;" prepend-icon="mdi-email-outline" base-color="grey-darken-1" link >Logout</v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <v-container>
+        <slot/>
+      </v-container>
+    </v-main>
 </div>
 
   <AuthPage v-else/>
+</v-app>
 </template>
 
 <script setup>
+import { useDisplay } from 'vuetify';
+
 useHead({
   bodyAttrs: {
     class: 'bg-stone-700'
@@ -32,10 +42,17 @@ useHead({
 })
 
 const darkMode = ref(false);
+const { mdAndDown } = useDisplay()
 const {useAuthUser, initAuth, useAuthLoading, logout} = useAuth();
 const isAuthLoading = useAuthLoading();
 const user = useAuthUser();
-console.log(user.id)
+
+async function handleLogout() {
+  logout()
+  await navigateTo('/')
+}
+
+
 onBeforeMount(() => {
   initAuth();
 })

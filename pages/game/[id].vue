@@ -15,9 +15,57 @@
             <div class="self-center font-bold text-5xl">
                 {{ gameDetails?.name }}
             </div>
-            <div>
+            <v-sheet
+          class="pa-6 font-weight-bold"
+          color="grey-darken-3"
+          rounded
+          :border="'md'"
+        >
+          <div class="font-weight-regular">
             {{ storyline }}
             </div>
+          <v-row no-gutters
+          >
+          <v-col>
+          <div>Platforms:
+            <div v-for="platform in gameDetails.platforms" class="font-weight-regular">
+                {{ platform.name }}
+            </div>
+            </div>
+        </v-col>
+        <v-col>
+            <div>Genres:
+            <div v-for="genre in gameDetails.genres" class="font-weight-regular">
+                {{ genre.name }}
+            </div>
+            </div>
+        </v-col>
+        </v-row>
+        <v-row no-gutters class="pt-1"
+          >
+          <v-col>
+          <div>Developer:
+            <div v-for="studio in gameDetails.involved_companies" class="font-weight-regular">
+                {{ !studio.publisher ? studio.company.name:'' }}
+            </div>
+            </div>
+        </v-col>
+        <v-col>
+            <div>Publisher:
+            <div v-for="studio in gameDetails.involved_companies" class="font-weight-regular">
+                {{ studio.publisher ? studio.company.name:'' }}
+            </div>
+            </div>
+        </v-col>
+        </v-row>
+        <v-row no-gutters class="pt-1">
+            <v-col>
+            <div>Release date:
+                <div class="font-weight-regular">{{ releaseDate }}</div>
+            </div>
+        </v-col>
+        </v-row>
+        </v-sheet>
         </div>
         <div class="pt-8 ">
             <v-card
@@ -27,7 +75,7 @@
             width="360"
             >
             <div class="flex flew-row gap-5 justify-center py-4">
-                <v-chip variant="flat" color="grey-darken-4">
+                <v-chip variant="flat" color="grey-lighten-4">
                 {{ rating }}
                 </v-chip>
                 <div class="font-bold">
@@ -63,16 +111,24 @@ const gamesQuery = ref()
 const gameDetails: Ref<any> = ref({
     id: 1,
     imageId: "undefined",
-    firstReleaseDate: 9999,
+    first_release_date: 9999,
     genres: [],
     storyline: "Storyline information is not available for this game.",
-    involvedCompanies: [],
+    involved_companies: [],
     name: "None",
     platforms: []
 })
 const storyline = computed(() => {
   return gameDetails.value?.storyline || "Storyline information is not available for this game.";
 });
+
+const releaseDate = computed(() => {
+    var timestamp = gameDetails.value.first_release_date;
+    var date = new Date(timestamp * 1000);
+    var formattedDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+
+    return formattedDate;
+})
 console.log(user.value.id);
 
 enum StarRating {
@@ -138,7 +194,7 @@ async function getGameDetails() {
         rating.value = res.rate;
         canBeUpdated.value = true;
     }
-    
+    console.log(gameDetails.value)
     console.log(res);
 }
 

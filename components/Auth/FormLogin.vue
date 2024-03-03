@@ -6,8 +6,8 @@
             </div>
         </div>
         <div class="pt-5 space-y-6">
-            <UIInput value="" label="Username" placeholder="username" v-model="data.username"/>
-            <UIInput value="" label="Password" placeholder="******" type="password" v-model="data.password"/>
+            <UIInput colorOfText="black" value="" label="Username" placeholder="username" v-model="data.username"/>
+            <UIInput colorOfText="black" value="" label="Password" placeholder="******" type="password" v-model="data.password"/>
 
             <UIButton @click="handleLogin" liquid :disabled="isButtonDisabled">
                 Login

@@ -47,4 +47,30 @@ export const updateRating = async (rateData: Omit<GameRate, "id" | "createdAt">)
     });
 
     return update;
-} 
+}
+
+export const countUserRatings = async (userId: number) => {
+
+    const countNumber: number = await prisma.gameRate.count({
+        where: {
+            userId: userId
+        }
+    })
+
+    return countNumber;
+}
+
+export const getLastThreeRatingsByUser = async (userId: number) => {
+
+    const gameRatings: GameRate[] | null = await prisma.gameRate.findMany({
+        where: {
+            userId: userId
+        },
+        take: 3,
+        orderBy: {
+            updatedAt: 'desc'
+        }
+    })
+
+    return gameRatings;
+}

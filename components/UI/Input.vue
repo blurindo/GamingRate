@@ -5,6 +5,7 @@
         <div class="mt-1">
             <input :value="props.modelValue" @input="event => emits('update:modelValue', event.target.value)"
                 class="block w-full px-4 border-gray-300 rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                :class="`text-${props.colorOfText}`"
                 :type="props.type" :placeholder="props.placeholder">
         </div>
     </div>
@@ -28,6 +29,10 @@ const props = defineProps({
     label: {
         type: String,
         default: null
+    },
+    colorOfText: {
+        type: String,
+        default: 'white'
     }
 })
 

@@ -14,6 +14,8 @@
     "@mdi/font": "^7.4.47",
     "@prisma/client": "^5.10.2",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^2.0.2",
+    "formidable": "^3.5.1",
     "h3": "^1.10.2",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@types/bcrypt": "^5.0.2",
+    "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.5",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",

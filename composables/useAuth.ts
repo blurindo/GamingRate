@@ -12,6 +12,7 @@ export default () => {
         username: string;
         password: string;
         repeatPassword: string;
+        mediaFile: any;
     }
 
     interface ILoginResponse {
@@ -70,17 +71,21 @@ export default () => {
         })
     }
 
-    const register = ({email, username, password, repeatPassword}: IRegisterParams) => {
+    const register = ({email, username, password, repeatPassword, mediaFile}: IRegisterParams) => {
+        const formData = new FormData();
+        formData.append('email', email)
+        formData.append('username', username)
+        formData.append('password', password)
+        formData.append('repeatPassword', repeatPassword)
+        mediaFile.forEach((mediaFile: any, index: number) => {
+            formData.append('media_file_' + index, mediaFile)
+        })
+
         return new Promise(async (resolve, reject) => {
             try {
                 const data = await $fetch<ILoginResponse>('/api/auth/register', {
                     method: 'POST',
-                    body: {
-                        email,
-                        username,
-                        password,
-                        repeatPassword
-                    }
+                    body: formData
                 })
                 setToken(data.access_token);
                 setUser(data.user);

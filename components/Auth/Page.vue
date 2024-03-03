@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-screen bg-white">
+    <div class="flex h-screen bg-white text-black">
         <div class="relative flex-1 hidden w-0 lg:block">
             <img class="absolute inset-0 object-cover w-full h-full"
              src="../../assets/images/login_img.webp" alt="">

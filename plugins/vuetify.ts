@@ -12,7 +12,10 @@ const myCustomTheme = {
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
-    theme: false
+    theme: {
+      defaultTheme: 'dark'
+    }
+    
     // theme: {
     //     defaultTheme: myCustomTheme,
     //     themes: {
