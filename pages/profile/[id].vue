@@ -21,32 +21,61 @@
                 <div class="flex flex-col">
                     <div class="font-bold text-5xl">{{ userFromProfileDetails?.username }}</div>
                     <div class="pb-2">Created at: {{ userFromProfileDetails.createdAt }} </div>
-<!--  v-if="isThisPersonFriend !== null || !isThisPersonFriend"-->
-                    <v-btn @click="sendFriendInvitation"  variant="tonal" :disabled="isFriendAdded">
+<!--  "-->
+                    <v-btn v-if="isThisPersonFriend !== null" @click="sendFriendInvitation"  variant="tonal" :disabled="isFriendAdded">
                     {{ friendInviteStatus }}
                     </v-btn>
                 </div>
         </div>
-        <div class="font-bold">
+        <div class="flex flex-row gap-36 place-content-between">
+            <div class="font-bold">
             Recently rated games:
             <div class="flex flex-row gap-4 pt-1">
                 <v-card v-for="lastGame in lastRatedGames"
                 max-width="150"
+                class="d-flex flex-column text-break cursor-pointer"
+                density="comfortable"
+                >               
+                    <v-img
+                    class="flex-shrink-0"
+                    :src="`https://images.igdb.com/igdb/image/upload/t_cover_big/${lastGame.game.cover.image_id}.png`"
+                    :width="200"
+                    cover
+                    @click="redirect(lastGame.game)">
+                    <v-chip variant="flat" color="grey-darken-4">
+                        {{ lastGame.rate }}
+                    </v-chip>
+                    </v-img>
+                    <div class="p-1 flex-grow-1 min-h-0" @click="redirect(lastGame.game)">
+                        {{lastGame.game.name}}
+                    </div>
+                    <v-divider></v-divider>
+                    <v-btn @click="showGameRatePage(lastGame.userId, lastGame.gameId)" class="flex-shrink-0" prepend-icon="mdi-comment-outline">
+                        Comment
+                    </v-btn>
+                </v-card>
+            </div>
+        </div>
+        <div class="font-bold cursor-pointer">
+            Friends:
+            <div class="flex flex-row gap-4 pt-1">
+                <v-card v-for="lastFriend in lastFriends"
+                max-width="150"
                 class="d-block text-break"
                 density="comfortable"
-                @click="redirect(lastGame.game)"
-                
-                color="transparent">               
+                @click="redirectToProfile(lastFriend)"
+                >               
                     <v-img
-                    :src="`https://images.igdb.com/igdb/image/upload/t_cover_big/${lastGame.game.cover.image_id}.png`"
+                    :src="`${lastFriend.user?.profileImage || lastFriend.friend?.profileImage}`"
                     :width="200"
                     cover>
                     </v-img>
                     <div class="p-1">
-                        {{lastGame.game.name}}
+                        {{lastFriend.user?.username || lastFriend.friend?.username}}
                     </div>
                 </v-card>
             </div>
+        </div>
         </div>
     </div>
 </template>
@@ -65,7 +94,7 @@ const isThisPersonFriend = ref(null);
 const lastRatedGames = ref(null)
 const lastFriends = ref(null)
 
-watch(() => useRoute().fullPath, () => {getUserDetails();})
+watch(() => useRoute().fullPath, async() => {await getUserDetails();})
 const releaseDate = (dateToChange) => {
     var timestamp = dateToChange
     var date = new Date(timestamp);
@@ -89,6 +118,8 @@ async function getUserDetails() {
                 }
         })
     }
+
+    console.log(isThisPersonFriend.value)
     
     lastRatedGames.value = await $fetch('/api/rating/get_last_three_user_rates', {
         method: 'POST',
@@ -96,6 +127,7 @@ async function getUserDetails() {
             userId: userIdFromProfile
         }
     })
+    console.log(lastRatedGames.value)
 
     lastFriends.value = await $fetch('/api/user/friend/get_last_three_friends', {
         method: 'POST',
@@ -126,6 +158,10 @@ function redirect(game) {
     navigateTo(`/game/${game.id}`)
 }
 
+function redirectToProfile(friend) {
+    navigateTo(`/profile/${friend.user?.id || friend.friend?.id}`);
+}
+
 async function sendFriendInvitation() {
     const res = await $fetch('/api/user/friendRequest/create_friend_invite', {
         method: 'POST',
@@ -137,5 +173,17 @@ async function sendFriendInvitation() {
 
     friendInviteStatus.value = 'Sent'
     isFriendAdded.value = true; 
+}
+
+async function showGameRatePage(userId, gameId) {
+    const res = await $fetch('/api/rating/get_rate', {
+        method: 'POST',
+        body: {
+            userId: userId,
+            gameId: gameId
+        }
+    });
+
+    navigateTo(`/rating/${res.id}`);
 }
 </script>

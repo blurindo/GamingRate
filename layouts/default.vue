@@ -16,7 +16,7 @@
         <NuxtLink to="/"><v-list-item prepend-icon="mdi-home-outline" base-color="grey-darken-1" link>Home</v-list-item></NuxtLink>
         <NuxtLink :to="`/profile/${user.id}`"><v-list-item prepend-icon="mdi-account-outline" base-color="grey-darken-1" link >Profile</v-list-item></NuxtLink>
         <v-list-item prepend-icon="mdi-account-multiple-outline" base-color="grey-darken-1" link >Friends Activity</v-list-item>
-        <v-list-item prepend-icon="mdi-email-outline" base-color="grey-darken-1" link >Requests</v-list-item>
+        <NuxtLink to="/friendsInvitations"><v-list-item prepend-icon="mdi-email-outline" base-color="grey-darken-1" link >Requests</v-list-item></NuxtLink>
         <v-list-item @click="handleLogout" style="bottom: 0;position: fixed;" prepend-icon="mdi-email-outline" base-color="grey-darken-1" link >Logout</v-list-item>
       </v-list>
     </v-navigation-drawer>

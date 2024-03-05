@@ -61,15 +61,32 @@ export const sendFriendRequest = async (senderId: number, receiverId: number) =>
         status: "sent", 
       },
       include: {
-        sender: true, 
+        sender: {
+          select: {
+            username: true,
+            profileImage: true
+          }
+        }, 
+      },
+      orderBy: {
+        createdAt: 'desc', 
       },
     });
+
+    const releaseDate = (dateToChange: Date) => {
+      var timestamp = dateToChange
+      var date = new Date(timestamp);
+      var formattedDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+  
+      return formattedDate;
+  }
   
     return friendRequests.map(request => ({
       id: request.id,
       senderId: request.senderId,
       senderUsername: request.sender.username, 
-      createdAt: request.createdAt,
+      senderProfileImage: request.sender.profileImage,
+      createdAt: releaseDate(request.createdAt),
     }));
   }
 

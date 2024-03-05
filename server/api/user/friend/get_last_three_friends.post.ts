@@ -12,6 +12,6 @@ export default defineEventHandler(async (event) => {
     ]
 
     const firstFriends = friendList.slice(0, 3)
-
+    
     return firstFriends;
 })

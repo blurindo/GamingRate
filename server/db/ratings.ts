@@ -74,3 +74,13 @@ export const getLastThreeRatingsByUser = async (userId: number) => {
 
     return gameRatings;
 }
+
+export const getRatingById = async (rateId: number) => {
+    const gameRating: GameRate | null = await prisma.gameRate.findUnique({
+        where: {
+            id: rateId
+            },
+        });
+
+    return gameRating;
+}
