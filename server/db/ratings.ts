@@ -78,9 +78,41 @@ export const getLastThreeRatingsByUser = async (userId: number) => {
 export const getRatingById = async (rateId: number) => {
     const gameRating: GameRate | null = await prisma.gameRate.findUnique({
         where: {
-            id: rateId
+            id: rateId,
+          },
+          include: {
+            user: {
+              select: {
+                username: true,
+                profileImage: true, 
+              },
             },
+          },
         });
 
     return gameRating;
+}
+
+export const getYourFriendGameRates = async (friendIds: number[]) => {
+    const friendsGameRates = await prisma.gameRate.findMany({
+        where: {
+          userId: {
+            in: friendIds,
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          user: {
+            select: {
+              username: true,
+              profileImage: true,
+              id: true
+            },
+          },
+        },
+      });
+
+      return friendsGameRates;
 }

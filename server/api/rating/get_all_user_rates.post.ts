@@ -5,6 +5,5 @@ export default defineEventHandler( async (event) => {
     const { userId } = body;
 
     const ratings = await getAllRatingByUser(userId)
-
     return ratings;
 })

@@ -29,8 +29,8 @@ async function getGamesList() {
     gamesList.value = listOfObjects
 }
 
-function redirect(game) {
-    navigateTo(`/game/${game.id}`)
+async function redirect(game) {
+    await navigateTo(`/game/${game.id}`)
 }
 
 onBeforeMount(() => {

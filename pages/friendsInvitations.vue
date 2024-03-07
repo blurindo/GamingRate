@@ -64,8 +64,8 @@ onBeforeMount(async () => {
     await getFriendRequests()
 })
 
-function goToProfile(request) {
-    navigateTo(`/profile/${request.senderId}`)
+async function goToProfile(request) {
+    await navigateTo(`/profile/${request.senderId}`)
 }
 
 async function acceptRequest(request) {

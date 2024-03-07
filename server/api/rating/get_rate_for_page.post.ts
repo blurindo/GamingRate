@@ -25,18 +25,13 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const { rateId } = body;
 
-    const combineRatingWithGame = (rating: GameRate, game: Game) => {
-        if (game.id === rating.gameId) {
-            return {
-                ...rating,
-                game: game
-            };
-        } else {
-            return {
-                ...rating,
-                game: null
-            };
-        }
+    const combineRatingWithGame = (rating: GameRate, games: Game[]) => {
+        const gameToFind = games.find(game => game.id === rating.gameId);
+          // Return a new object that combines the rating with the found game
+          return {
+            ...rating,
+            game: gameToFind ? gameToFind : null // Include the game object if found, else null
+          };
     };
 
     const gameRate = await getRatingById(rateId)
@@ -53,9 +48,10 @@ export default defineEventHandler(async (event) => {
       });
     
     const foundGame = await response.json();
-    const gameWithCover = ensureCover(foundGame);
-    
+    console.log(foundGame)
+    const gamesWithCover = foundGame.map(ensureCover);
+    console.log(combineRatingWithGame(gameRate!!,gamesWithCover));
     if(gameRate)
-        return  combineRatingWithGame(gameRate,gameWithCover);
+        return  combineRatingWithGame(gameRate,gamesWithCover);
       return null;
 })

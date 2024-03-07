@@ -154,12 +154,12 @@ onBeforeMount( async () => {
     await getUserDetails();
 })
 
-function redirect(game) {
-    navigateTo(`/game/${game.id}`)
+async function redirect(game) {
+    await navigateTo(`/game/${game.id}`)
 }
 
-function redirectToProfile(friend) {
-    navigateTo(`/profile/${friend.user?.id || friend.friend?.id}`);
+async function redirectToProfile(friend) {
+    await navigateTo(`/profile/${friend.user?.id || friend.friend?.id}`);
 }
 
 async function sendFriendInvitation() {
@@ -184,6 +184,6 @@ async function showGameRatePage(userId, gameId) {
         }
     });
 
-    navigateTo(`/rating/${res.id}`);
+    await navigateTo(`/rating/${res.id}`);
 }
 </script>
