@@ -1,6 +1,9 @@
 <template>
-    <div v-for="game in gamesList">
+    <div>
+    <LoadingPage v-if="loading"/>
+    <div v-else v-for="game in gamesList">
        <SearchGameResult :game="game" @click.native="redirect(game)"/>
+    </div>
     </div>
 </template>
 
@@ -9,6 +12,7 @@ const { mapGameDto } = useGameDtoMapper()
 definePageMeta({
   layout: 'default'
 })
+const loading = ref(true);
 const gamesQuery = ref(null)
 const gamesList = ref(null)
 watch(() => useRoute().fullPath, () => getGamesList())
@@ -27,6 +31,8 @@ async function getGamesList() {
         listOfObjects.push(mapGameDto(element))
     });
     gamesList.value = listOfObjects
+
+    loading.value = false;
 }
 
 async function redirect(game) {

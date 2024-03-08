@@ -1,5 +1,7 @@
 <template>
-    <div class="flex flex-col gap-5 text-stone-300 font-sans">
+    <div>
+    <LoadingPage v-if="loading"/>
+    <div v-else class="flex flex-col gap-5 text-stone-300 font-sans">
         <div class="flex justify-center gap-5">
             <div class="flex flex-col">
                 <v-sheet :elevation="24">
@@ -78,11 +80,13 @@
         </div>
         </div>
     </div>
+    </div>
 </template>
 
 <script setup>
 const { useAuthUser } = useAuth();
 const friendInviteStatus = ref('Add friend');
+const loading = ref(true);
 const isFriendAdded = ref(false);
 const user = useAuthUser();
 const userIdFromProfile = parseInt(useRoute().params.id);
@@ -145,9 +149,7 @@ async function getUserDetails() {
 
     userFromProfileDetails.value.createdAt = releaseDate(userFromProfileDetails.value.createdAt)
 
-    console.log(lastRatedGames.value)
-    console.log(lastFriends.value)
-    console.log(userFromProfileDetails.value)
+    loading.value = false;
 }
 
 onBeforeMount( async () => {

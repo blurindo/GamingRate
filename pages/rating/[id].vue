@@ -1,6 +1,7 @@
 <template>
     <div>
-    <v-card class="mt-5">
+    <LoadingPage v-if="loading"/>
+    <v-card v-else class="mt-5">
     <div class="flex flex-col m-3">
         <div class="flex flex-row">
             <v-avatar class="cursor-pointer" @click="redirectToProfile(ratingDetails?.userId)" :image="`${ratingDetails?.user.profileImage}`" size="80"></v-avatar>
@@ -100,6 +101,7 @@
 <script setup>
 import moment from 'moment';
 const { useAuthUser } = useAuth();
+const loading = ref(true);
 const user = useAuthUser();
 const ratingId = parseInt(useRoute().params.id);
 const ratingDetails= ref(null);
@@ -134,6 +136,8 @@ async function getRatingDetails() {
          }
         })
     }
+
+    loading.value = false;
 }
 
 async function postComment() {
@@ -172,5 +176,7 @@ async function redirectToGame(gameId) {
 onBeforeMount( async () => {
     await getRatingDetails();
 })
+
+
 
 </script>

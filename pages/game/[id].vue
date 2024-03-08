@@ -1,5 +1,7 @@
 <template>
-    <div class="p-3 flex flex-row gap-5 text-stone-300 font-sans">
+    <div>
+    <LoadingPage v-if="loading"/>   
+    <div v-else class="p-3 flex flex-row gap-5 text-stone-300 font-sans">
         <div class="pt-8">
             <v-sheet :elevation="24">
             <v-img
@@ -96,6 +98,7 @@
         </v-card>
         </div>
     </div>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -105,6 +108,7 @@ definePageMeta({
   layout: 'default'
 })
 const { useAuthUser } = useAuth();
+const loading = ref(true);
 const user = useAuthUser();
 console.log(user)
 const gamesQuery = ref()
@@ -194,8 +198,8 @@ async function getGameDetails() {
         rating.value = res.rate;
         canBeUpdated.value = true;
     }
-    console.log(gameDetails.value)
-    console.log(res);
+    
+    loading.value = false
 }
 
 
