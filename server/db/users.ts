@@ -28,3 +28,20 @@ export const getUserById = (userId: number) => {
         }
     })
 }
+
+export const findUsersbyPhrase = async (phrase: string) => {
+    const users = await prisma.user.findMany({
+        where: {
+            username: {
+                contains: phrase, mode: 'insensitive'
+            }
+        },
+        select: {
+            id: true,
+            username: true,
+            profileImage: true
+        }
+    })
+
+    return users;
+}

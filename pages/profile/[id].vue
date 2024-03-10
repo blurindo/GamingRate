@@ -23,8 +23,7 @@
                 <div class="flex flex-col">
                     <div class="font-bold text-5xl">{{ userFromProfileDetails?.username }}</div>
                     <div class="pb-2">Created at: {{ userFromProfileDetails.createdAt }} </div>
-<!--  "-->
-                    <v-btn v-if="isThisPersonFriend !== null" @click="sendFriendInvitation"  variant="tonal" :disabled="isFriendAdded">
+                    <v-btn v-if="isThisPersonFriend !== true && isThisPersonFriend !== null" @click="sendFriendInvitation"  variant="tonal" :disabled="isFriendAdded">
                     {{ friendInviteStatus }}
                     </v-btn>
                 </div>
@@ -59,7 +58,11 @@
             </div>
         </div>
         <div class="font-bold cursor-pointer">
+            <div>
+            <NuxtLink :to="`/friends/${userIdFromProfile}`">
             Friends:
+            </NuxtLink>
+            </div>
             <div class="flex flex-row gap-4 pt-1">
                 <v-card v-for="lastFriend in lastFriends"
                 max-width="150"
@@ -84,6 +87,7 @@
 </template>
 
 <script setup>
+
 const { useAuthUser } = useAuth();
 const friendInviteStatus = ref('Add friend');
 const loading = ref(true);

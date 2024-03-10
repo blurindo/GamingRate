@@ -88,3 +88,16 @@ export const removeFriend = async (userId:number, friendId:number) => {
 
     return friendsList;
 }
+
+export const getNumberOfFriends = async(userId: number) => {
+  const numberOfFriends = await prisma.friend.count({
+    where: {
+      OR: [
+        { userId: userId },
+        { friendId: userId },
+      ],
+    },
+  })
+
+  return numberOfFriends;
+}
