@@ -57,7 +57,6 @@ async function getFriendRequests () {
         body: { receiverId: user.value.id }
     })
 
-    console.log(friendRequests.value)
 }
 
 onBeforeMount(async () => {
