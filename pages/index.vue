@@ -1,6 +1,7 @@
 <template>
-    <div class="bg-stone-700 min-h-screen">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, ipsum! Ullam rerum vero delectus quis distinctio reprehenderit, deleniti necessitatibus repellat, aspernatur, deserunt quam non beatae! Mollitia aspernatur voluptatum doloremque saepe.
+    <div class= "min-h-screen text-3xl">
+        TU BEDA REKOMENDACJE NA RAZIE NIE MA BO POTRZEBA DANYCH OCENIAJCIE GIERKI TO BEDA SPOKO OK NA GORZE WYSZUKIWARKA, NAJLEPIEJ JAKIES MAINSTREAMOWE, TO
+        LATWIEJ Z DANYMI BEDZIE I TAKIE CO MAJA WSZYSTKO OPISANE POZDRAWIAM ADMINISTRACJA GAMING RATE PS BUGOW NIE ZGLASZAJCIE BO I TAK PEWNIE NIE BEDZIE CHCIALO MI SIE NAPRAWIC
     </div>
 </template>
 

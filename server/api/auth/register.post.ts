@@ -73,7 +73,6 @@ export default defineEventHandler(async (event) => {
                 });
             } else if (fileOrFiles) {
                 // Handle a single file
-                console.log(fileOrFiles)
                 uploadPromises.push(uploadImage(fileOrFiles.filepath));
             }
         }

@@ -13,12 +13,14 @@
         >
             </v-img>
             </v-sheet>
+            <NuxtLink :to="`/personGames/${userIdFromProfile}`">
             <div class="p-2 font-bold text-xl">
                 Ratings:
                 <div>
                     {{ numberOfGames }}
                 </div>
             </div>
+            </NuxtLink>
             </div>
                 <div class="flex flex-col">
                     <div class="font-bold text-5xl">{{ userFromProfileDetails?.username }}</div>
@@ -127,7 +129,6 @@ async function getUserDetails() {
         })
     }
 
-    console.log(isThisPersonFriend.value)
     
     lastRatedGames.value = await $fetch('/api/rating/get_last_three_user_rates', {
         method: 'POST',
@@ -135,7 +136,6 @@ async function getUserDetails() {
             userId: userIdFromProfile
         }
     })
-    console.log(lastRatedGames.value)
 
     lastFriends.value = await $fetch('/api/user/friend/get_last_three_friends', {
         method: 'POST',

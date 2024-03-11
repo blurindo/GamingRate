@@ -1,9 +1,28 @@
 <template>
     <div>
     <LoadingPage v-if="loading"/>
-    <div v-else v-for="game in gamesList">
+    <!-- <div v-else v-for="game in gamesList">
        <SearchGameResult :game="game" @click.native="redirect(game)"/>
-    </div>
+    </div> -->
+        <div v-else>
+            <v-card v-for="game in gamesList"
+            @click="redirect(game)"
+            class="mb-5">
+                <div class="flex flex-row">
+                    <v-img
+                    class="cursor-pointer ml-2 my-4"
+                    :width="200"
+                    aspect-ratio="1/1"
+                    :max-width="200"
+                    :src="`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.imageId}.png`"
+                    >
+                    </v-img>
+                    <div class="text-2xl cursor-pointer pl-3 pt-4">
+                        {{ game.name }}
+                    </div>
+                </div>
+            </v-card>
+        </div>
     </div>
 </template>
 
@@ -26,11 +45,11 @@ async function getGamesList() {
     gamesList.value = data.games
 
     let listOfObjects = []
-    console.log(gamesList.value)
     gamesList.value.forEach(element => {
         listOfObjects.push(mapGameDto(element))
     });
     gamesList.value = listOfObjects
+
 
     loading.value = false;
 }

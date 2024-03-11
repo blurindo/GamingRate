@@ -110,7 +110,6 @@ definePageMeta({
 const { useAuthUser } = useAuth();
 const loading = ref(true);
 const user = useAuthUser();
-console.log(user)
 const gamesQuery = ref()
 const gameDetails: Ref<any> = ref({
     id: 1,
@@ -133,7 +132,6 @@ const releaseDate = computed(() => {
 
     return formattedDate;
 })
-console.log(user.value.id);
 
 enum StarRating {
     Poor = "I hate this",

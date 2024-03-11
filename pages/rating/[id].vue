@@ -127,7 +127,6 @@ async function getRatingDetails() {
     })
 
     if(ratingDetails.value && ratingDetails.value.game && ratingDetails.value.game.id) {
-        console.log('test')
     yourRatingDetails.value = await $fetch('/api/rating/get_rate', {
         method: 'POST',
         body: {
@@ -161,7 +160,6 @@ async function postComment() {
             method: 'POST',
             body: { rateId: ratingId }
         })
-        console.log(commentsList.value)
     }
 }
 

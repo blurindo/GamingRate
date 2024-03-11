@@ -48,9 +48,7 @@ export default defineEventHandler(async (event) => {
       });
     
     const foundGame = await response.json();
-    console.log(foundGame)
     const gamesWithCover = foundGame.map(ensureCover);
-    console.log(combineRatingWithGame(gameRate!!,gamesWithCover));
     if(gameRate)
         return  combineRatingWithGame(gameRate,gamesWithCover);
       return null;
