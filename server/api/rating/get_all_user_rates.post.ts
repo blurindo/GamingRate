@@ -42,6 +42,7 @@ export default defineEventHandler( async (event) => {
     const ratings = await getAllRatingByUser(userId)
 
     const searchQuery = `(${ratings.map(rating => rating.gameId.toString()).join(',')})`;
+    console.log(searchQuery)
     const response = await fetch(
         "https://api.igdb.com/v4/games",
         { method: 'POST',
@@ -50,7 +51,7 @@ export default defineEventHandler( async (event) => {
             'Client-ID': `${config.igdbClientId}`,
             'Authorization': `${config.igdbAuthorization}`,
           },
-          body: `fields name, cover.image_id; where id = ${searchQuery};`
+          body: `fields name, cover.image_id; where id = ${searchQuery}; limit 50;`
       });
     
     const foundGames = await response.json();

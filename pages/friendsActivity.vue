@@ -52,6 +52,7 @@
             </div>
         </div>
         </v-card>
+        <v-pagination v-model="page" :length="5"></v-pagination>
     </div>
     </div>
 </template>
@@ -62,13 +63,20 @@ const loading = ref(true);
 const { useAuthUser } = useAuth();
 const user = useAuthUser();
 const friendGameRates = ref(null);
-const testRate = ref(1);
+const page = ref(1)
 watch(() => useRoute().fullPath, () => getFriendGameRates())
+watch(page, async () => {
+    window.scrollTo(0,0);
+    loading.value = true;
+    await getFriendGameRates();
+} )
 
 async function getFriendGameRates () {
     friendGameRates.value = await $fetch('/api/rating/get_your_friends_rates', {
         method: 'POST',
-        body: { userId: user.value.id }
+        body: { userId: user.value.id,
+                page: page.value
+        }
     })
     loading.value = false;
 }

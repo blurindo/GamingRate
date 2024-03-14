@@ -39,7 +39,7 @@ const combineRatingsWithGames = (ratings: (GameRate &{
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const body = await readBody(event);
-    const { userId } = body;
+    const { userId, page } = body;
 
     const friendsList = await getListOfFriends(userId);
 
@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
     ];
 
 
-    const friendsGameRates = await getYourFriendGameRates(friendIds)
+    const friendsGameRates = await getYourFriendGameRates(friendIds, page)
 
     const searchQuery = `(${friendsGameRates.map(rating => rating.gameId.toString()).join(',')})`;
     const response = await fetch(
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
             'Client-ID': `${config.igdbClientId}`,
             'Authorization': `${config.igdbAuthorization}`,
           },
-          body: `fields name, cover.image_id; where id = ${searchQuery};`
+          body: `fields name, cover.image_id; where id = ${searchQuery}; limit 50;`
       });
 
       const foundGames = await response.json();

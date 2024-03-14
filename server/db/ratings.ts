@@ -93,7 +93,12 @@ export const getRatingById = async (rateId: number) => {
     return gameRating;
 }
 
-export const getYourFriendGameRates = async (friendIds: number[]) => {
+export const getYourFriendGameRates = async (friendIds: number[], page: number) => {
+    const skipAmount = (page - 1) * 50;
+
+    // Zakładając, że już pobrano friendIds (ID wszystkich znajomych)
+    
+
     const friendsGameRates = await prisma.gameRate.findMany({
         where: {
           userId: {
@@ -112,7 +117,63 @@ export const getYourFriendGameRates = async (friendIds: number[]) => {
             },
           },
         },
+        skip: skipAmount,
+        take: 50,
       });
 
       return friendsGameRates;
+}
+
+export const getAllUniqueGameIds = async() => {
+    const gameRates = await prisma.gameRate.findMany({
+        select: {
+          gameId: true,
+        },
+      });
+
+      const uniqueGameIds = [...new Set(gameRates.map(gameRate => gameRate.gameId))];
+      return uniqueGameIds;
+
+}
+
+export const getOrganizedGameRatesByUser = async() => {
+    const gameRates = await prisma.gameRate.findMany({
+        select: {
+          userId: true,
+          gameId: true,
+          rate: true,
+        },
+      });
+    
+      const gameRatesByUser = gameRates.reduce((acc, { userId, gameId, rate }) => {
+        // Jeśli użytkownik nie istnieje w akumulatorze, dodaj go z pustą mapą
+        if (!acc[userId]) {
+            acc[userId] = {};
+        }
+        // Dodaj gameId jako klucz i rate jako wartość do mapy ocen użytkownika
+        acc[userId][gameId] = rate;
+        return acc;
+    }, {} as Record<number, Record<number, number>>); // Używamy Record<number, number> dla ocen gier
+
+    return gameRatesByUser;
+};
+
+export const getUserGameRatesWithMinRate = async(userId: number) => {
+    const gameRates = await prisma.gameRate.findMany({
+        where: {
+          userId: userId,
+          rate: {
+            gte: 3,
+          },
+        },
+        select: {
+          gameId: true,
+          rate: true,
+        },
+        orderBy: {
+            rate: 'desc', 
+          },
+      });
+    
+      return gameRates;
 }
