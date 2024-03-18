@@ -28,7 +28,10 @@ export default defineEventHandler(async (event) => {
 
     //return organizedRatings;
     const mostSimiliarUser = findMostSimilarUserByCosineSimilarity(userId,organizedRatings);
-
+    console.log(mostSimiliarUser)
+    if(mostSimiliarUser === -1) {
+        return -1;
+    }
     const myRates = organizedRatings[userId]
     const likedGamesByUser = await getUserGameRatesWithMinRate(mostSimiliarUser);
     const gamesToRecommend = [];
@@ -37,6 +40,7 @@ export default defineEventHandler(async (event) => {
             gamesToRecommend.push(game)
         }
     }
+    
 
     const searchQuery = `(${gamesToRecommend.map(rating => rating.gameId.toString()).join(',')})`;
 

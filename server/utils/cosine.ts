@@ -43,6 +43,10 @@ export const findMostSimilarUserByCosineSimilarity = (myUserId: number, allUserR
             }
         }
     }
-
+    
+    if (highestSimilarity === 0) {
+        return -1;
+    }
+    console.log(highestSimilarity)
     return mostSimilarUserId;
 };
